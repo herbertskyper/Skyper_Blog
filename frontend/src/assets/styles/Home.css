@@ -1,25 +1,34 @@
 
-.container {
-  position: absolute;
-  left: 50%;
-  top:50%;
-  transform: translate(-50%,-50%);
-  width: 100%;
-  height: 100%;
 
+.container {
+  width: 100%;
+  min-height: 98vh;
+  background: url('background.png') center center no-repeat;
+  background-size: 100% 100%;
 }
+
+.container-phone {
+  width: 100%;
+  min-height: 98vh;
+  background: url('background-phone.png') center center no-repeat;
+  background-size: 100% 100%;
+}
+
 
 .blog-home {
   font-family: 'Arial', sans-serif;
   padding: 20px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  background-size: cover;
-  background-position: center;
-  color: #333;
-  min-height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
+  -webkit-backdrop-filter: blur(10px); /* 添加模糊效果 */
+  backdrop-filter: blur(10px); /* 添加模糊效果 */
+  border-radius: 15px;
+  color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: fadeIn 2s ease-in-out;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  min-height: 93vh; /* 保证内容高度不会小于视口高度，好东西 */
 }
 
 header {
@@ -28,14 +37,16 @@ header {
 }
 
 header h1 {
-  font-size: 3em;
-  color: #42b983;
+  font-size: 2.3em;
+  color: #fff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  animation: slideInFromLeft 1s ease-in-out;
 }
 
 header p {
   font-size: 1.2em;
-  color: #666;
+  color: #ddd;
+  animation: slideInFromRight 1s ease-in-out;
 }
 
 .blog-list-button {
@@ -44,7 +55,7 @@ header p {
   padding: 12px 24px;
   font-size: 1em;
   color: #fff;
-  background-color: #42b983;
+  background-color: #409eff;
   border: none;
   border-radius: 25px;
   cursor: pointer;
@@ -53,7 +64,7 @@ header p {
 }
 
 .blog-list-button:hover {
-  background-color: #369f6b;
+  background-color: #66b1ff;
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
@@ -70,10 +81,11 @@ header p {
   gap: 20px;
   width: 100%;
   max-width: 800px;
+  animation: fadeIn 2s ease-in-out;
 }
 
 .blog-post {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -87,19 +99,47 @@ header p {
 
 .blog-post h2 {
   margin-top: 0;
-  color: #333;
+  color: #fff;
 }
 
 .blog-post p {
-  color: #666;
+  color: #ddd;
 }
 
 .blog-post a {
-  color: #42b983;
+  color: #66b1ff;
   text-decoration: none;
   font-weight: bold;
 }
 
 .blog-post a:hover {
   text-decoration: underline;
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
