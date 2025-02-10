@@ -10,10 +10,9 @@
                 
 				<section class="blog-posts">
 					<article v-for="post in posts" :key="post.id" class="blog-post">
-						<a :href="post.link">
+						<a>
 							<h2>{{ post.title }}</h2>
 							<p>{{ post.excerpt }}</p>
-							阅读更多
 						</a>
 					</article>
         </section>
