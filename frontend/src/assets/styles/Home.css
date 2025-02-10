@@ -3,14 +3,14 @@
 .container {
   width: 100%;
   min-height: 98vh;
-  background: url('background.png') center center no-repeat;
+  background: url('../background.png') center center no-repeat;
   background-size: 100% 100%;
 }
 
 .container-phone {
   width: 100%;
   min-height: 98vh;
-  background: url('background-phone.png') center center no-repeat;
+  background: url('../background-phone.png') center center no-repeat;
   background-size: 100% 100%;
 }
 

@@ -4,7 +4,7 @@ import * as yaml from 'js-yaml'
 import { marked } from 'marked'
 
 export async function loadPosts() {
-  const posts = import.meta.glob('../posts/*.md', { as: 'raw' }) as Record<string, () => Promise<string>>
+  const posts = import.meta.glob('@/posts/*.md', { as: 'raw' }) as Record<string, () => Promise<string>>
   const postList = []
 
   for (const path in posts) {
@@ -32,3 +32,4 @@ export async function loadPosts() {
 
   return postList
 }
+
