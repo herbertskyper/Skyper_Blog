@@ -20,7 +20,7 @@
       </div>
     </div>
     <template #toc-content>
-      <div v-if="tocItemCount > 1" class="post-toc">
+      <div v-if="tocItemCount > 0" class="post-toc">
           <h2>目录</h2>
           <div class="toc-divider"></div>
           <el-scrollbar max-height="500px">
@@ -46,6 +46,7 @@ import markdownItTocDoneRight from 'markdown-it-toc-done-right'
 import '@/assets/css/markdown-styles.css' 
 import hljs from 'highlight.js'
 import { sl } from 'element-plus/es/locale'
+import markdownItTaskLists from 'markdown-it-task-lists';
 
 export default defineComponent({
   components: {
@@ -92,6 +93,7 @@ export default defineComponent({
       containerClass: 'toc',
       listType: 'ol'
     })
+    .use(markdownItTaskLists)
 
     onMounted(async () => {
       const slug = route.params.slug
@@ -123,6 +125,7 @@ export default defineComponent({
         listType: 'ol' // 使用有序列表
       })
       const tocHtml = tocMd.render('[[toc]]\n' + markdownContent)
+      
 
       // 创建一个临时的 DOM 元素来解析 HTML 字符串
       const tempDiv = document.createElement('div')
@@ -135,9 +138,9 @@ export default defineComponent({
       tocContent.value = firstDivContent
 
       // 统计目录中的条目数量
-      const tocItems = tempDiv.querySelectorAll('div > ul > li')
+      const tocItems = tempDiv.querySelectorAll('div > ol');
       tocItemCount.value = tocItems.length  //这里不能用const xxx = xxx，这样会无法传递到全局的变量中，导致无法传给template真实值 
-      // console.log('目录条目数量:', tocItemCount) // 调试日志
+      console.log('目录条目数量:', tocItemCount) // 调试日志
 
       // 监听目录中的链接点击事件
       nextTick(() => {

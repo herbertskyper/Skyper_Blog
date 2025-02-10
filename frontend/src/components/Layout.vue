@@ -493,7 +493,8 @@ export default defineComponent({
 /* 以下这些样式如果写在另一个vue文件无法直接作用，原因未知 */
 .post-toc {
   width: auto;
-  max-width: 450px;
+  min-width: 300px;
+  max-width: 400px;
   background-color: #f9f9f9;
   padding: 20px;
   border-radius: 8px;

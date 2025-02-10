@@ -38,8 +38,8 @@ export default defineComponent({
     const router = useRouter()
 
     const goTags = () => {
-      router.push('/tags')
-      localStorage.setItem('activeIndex', '2')
+      router.go(-1)
+      
     }
 
     return {

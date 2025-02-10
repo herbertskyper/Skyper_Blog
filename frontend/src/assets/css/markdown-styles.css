@@ -142,6 +142,70 @@
   background-color: #555; /* 设置背景颜色为较浅的深色 */
 }
 
+/* 自定义提示块样式 */
+.markdown-body .important {
+  background-color: #ffeb3b; /* 背景颜色 */
+  border-left: 4px solid #fbc02d; /* 左边框颜色 */
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.markdown-body .warning {
+  background-color: #ff9800; /* 背景颜色 */
+  border-left: 4px solid #f57c00; /* 左边框颜色 */
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.markdown-body .info {
+  background-color: #2196f3; /* 背景颜色 */
+  border-left: 4px solid #1976d2; /* 左边框颜色 */
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.markdown-body .note {
+  background-color: #e7f3fe; /* 背景颜色 */
+  border-left: 4px solid #2196f3; /* 左边框颜色 */
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+
+
+/* 黑夜模式下的自定义提示块样式 */
+.dark-mode .markdown-body .important {
+  background-color: #fbc02d; /* 背景颜色 */
+  border-left: 4px solid #ffeb3b; /* 左边框颜色 */
+  color: #000; /* 文本颜色 */
+}
+
+.dark-mode .markdown-body .warning {
+  background-color: #f57c00; /* 背景颜色 */
+  border-left: 4px solid #ff9800; /* 左边框颜色 */
+  color: #000; /* 文本颜色 */
+}
+
+.dark-mode .markdown-body .info {
+  background-color: #1976d2; /* 背景颜色 */
+  border-left: 4px solid #2196f3; /* 左边框颜色 */
+  color: #fff; /* 文本颜色 */
+}
+
+.dark-mode .markdown-body .note {
+  background-color: #1976d2; /* 背景颜色 */
+  border-left: 4px solid #2196f3; /* 左边框颜色 */
+  color: #fff; /* 文本颜色 */
+}
+
 /* 代码块样式 */
 .markdown-body pre {
   position: relative; /* 确保复制按钮相对于代码块定位 */
@@ -183,6 +247,24 @@
   color: #fff;
 }
 
+/* 内联代码块样式 */
+.markdown-body code {
+  background-color: #ecf0f1; /* 背景颜色 */
+  color: #e83e8c; /* 文本颜色 */
+  padding: 0.2em 0.4em;
+  margin: 0;
+  border-radius: 3px;
+  font-size: 85%;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+
+/* 黑夜模式内联代码块样式 */
+.dark-mode .markdown-body code {
+  background-color: #444; /* 背景颜色 */
+  color: #ff79c6; /* 文本颜色 */
+}
+
+
 /* 列表样式 */
 .markdown-body ul, .markdown-body ol {
   margin: 0.5em 0;
@@ -190,12 +272,27 @@
 }
 
 .markdown-body ul {
-  list-style-type: disc;
+  list-style-type: disc; /* 实心圆 */
 }
 
 .markdown-body ol {
-  list-style-type: decimal;
+  list-style-type: decimal; /* 数字 */
 }
+
+/* 添加嵌套无序列表样式 */
+.markdown-body ul ul {
+  list-style-type: circle; /* 空心圆 */
+}
+
+/* 添加嵌套有序列表样式 */
+.markdown-body ol ol {
+  list-style-type: lower-alpha; /* 小写字母 */
+}
+
+.markdown-body ol ol ol {
+  list-style-type: lower-roman; /* 小写罗马数字 */
+}
+
 
 /* 表格样式 */
 .markdown-body table {
@@ -207,11 +304,17 @@
 .markdown-body th, .markdown-body td {
   padding: 0.6em 1em;
   border: 1px solid #dfe2e5;
+  text-align: center; /* 居中对齐 */
 }
 
 .markdown-body th {
   background-color: #f6f8fa;
   font-weight: bold;
+}
+
+/* 隔行背景颜色 */
+.markdown-body tr:nth-child(even) {
+  background-color: #dfe2e582; /* 灰色背景 */
 }
 
 /* 黑夜模式表格样式 */
@@ -223,11 +326,46 @@
   border: 1px solid #444;
 }
 
+/* 黑夜模式隔行背景颜色 */
+.dark-mode .markdown-body tr:nth-child(even) {
+  background-color: #444; /* 深灰色背景 */
+}
+
 /* 图片样式 */
 .markdown-body img {
   max-width: 100%;
   height: auto;
   border-radius: 4px;
+}
+
+/* 任务列表样式 */
+.markdown-body input[type="checkbox"] {
+  margin-right: 0.5em;
+  margin-left: -30px;
+  transform: scale(1.2); /* 调整复选框的大小 */
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none; /* 移除默认的列表样式 */
+  margin: 0.5em 0;
+}
+
+.markdown-body .task-list-item label {
+  display: flex;
+  align-items: center;
+}
+
+.markdown-body .task-list-item label span {
+  margin-left: 0.5em;
+}
+
+/* 黑夜模式任务列表样式 */
+.dark-mode .markdown-body input[type="checkbox"] {
+  accent-color: #fff; /* 设置复选框的颜色 */
+}
+
+.dark-mode .markdown-body .task-list-item label span {
+  color: #fff; /* 设置文本颜色 */
 }
 
 /* 代码高亮样式 */

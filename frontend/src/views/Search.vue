@@ -75,7 +75,15 @@ export default defineComponent({
 
     const highlight = (text: string) => {
       if (!searchQuery.value) return text
-      const queries = searchQuery.value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&').split(' ').filter(q => q)
+      let queries1 = searchQuery.value.split(' ').filter(q => q)
+      for(let i = 0; i < queries1.length; i++) {
+        if('[…]'.includes(queries1[i])) {
+          queries1[i] = ''
+        }
+      }
+
+      const queriesString = queries1.join(' ').replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+      const queries = queriesString.split(' ').filter(q => q);
       const matches: { start: number, end: number }[]  = []
 
       queries.forEach(query => {
@@ -126,16 +134,16 @@ export default defineComponent({
         const partStart = Math.max(0, index - 30)
         const partEnd = Math.min(text.length, index + queries[0].length + 30)
         if (partStart > prevEnd) {
-          console.log(prevStart, prevEnd)
+          // console.log(prevStart, prevEnd)
           snippetParts.push(text.substring(prevStart, prevEnd) + '[…]')
-          console.log(snippetParts)
+          // console.log(snippetParts)
           prevStart = partStart
         }
         prevEnd = partEnd
       })
 
       snippetParts.push(text.substring(prevStart,prevEnd) + '[…]')
-      console.log(snippetParts)
+      // console.log(snippetParts)
 
       const highlightedSnippet = snippetParts.join('')
 

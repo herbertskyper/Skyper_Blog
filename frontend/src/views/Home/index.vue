@@ -32,9 +32,9 @@ export default defineComponent({
     data() {
         return {
             posts: [
-                { id: 1, title: '第一篇博客文章', excerpt: '这是第一篇博客文章的简介...', link: '/post/first-blog' },
-                { id: 2, title: '第二篇博客文章', excerpt: '这是第二篇博客文章的简介...', link: '/post/second-blog' },
-                { id: 3, title: '第三篇博客文章', excerpt: '这是第三篇博客文章的简介...', link: '/post/third-blog' },
+                { id: 1, title: '内卷与优绩主义', excerpt: '一篇关于社会现象的思考', link: '/post/Involution' },
+                { id: 2, title: '基于Vue的博客前端搭建', excerpt: '讲述了本博客的开发历程', link: '/post/blog-build' },
+                { id: 3, title: 'CSAPP学习笔记', excerpt: '一篇CSAPP的知识梳理', link: '/post/CSAPP' },
             ],
             isMobile: false
         };
