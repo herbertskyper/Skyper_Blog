@@ -1,5 +1,11 @@
 import katex from 'katex';
 
+/**
+ * 使用 KaTeX 渲染数学公式。
+ * 
+ * @param {string} content - 包含数学公式的字符串内容。
+ * @returns {string} - 渲染后的字符串内容，其中数学公式被转换为 HTML。
+ */
 export function renderMath(content: string): string {
   // 处理块级公式 $$...$$
   content = content.replace(/\$\$([\s\S]+?)\$\$/g, (match, formula) => {

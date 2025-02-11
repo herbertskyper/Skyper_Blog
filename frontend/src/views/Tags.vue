@@ -1,9 +1,11 @@
+<!-- 展示所有标签 -->
+
 <template>
   <Layout>
     <div class="back-button">
       <el-button type="primary" @click="goHome">返回</el-button>
     </div>
-    <div class="tags-container">
+    <div>
       <h1>标签</h1>
       <ul class="tags-list">
         <li v-for="(tag,index) in tags" :key="tag" :class="['tag-item', getTagClass(index)]">
@@ -30,6 +32,7 @@ export default defineComponent({
     const router = useRouter()
     const tags = ref<string[]>([])
 
+    // 组件挂载时加载所有文章并提取标签
     onMounted(async () => {
       const posts = await loadPosts()
       const allTags = new Set<string>()
@@ -44,15 +47,18 @@ export default defineComponent({
       console.log('Extracted tags:', tags.value) // 调试日志
     })
 
+    // 返回首页
     const goHome = () => {
       router.push('/home')
       localStorage.setItem('activeIndex', '1')
     }
 
+    // 处理标签点击事件，跳转到对应标签的文章列表
     const handleTagClick = (tag: string) => {
       router.push(`/tags/${tag}`)
     }
 
+    // 根据索引获取标签的样式类
     const getTagClass = (index:number) => {
       return `tag-${index%5}`
     }
@@ -68,14 +74,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
-
 .tags-list {
   list-style: none;
   padding: 0;
 }
-
-
 
 .tag-item a {
   text-decoration: none;

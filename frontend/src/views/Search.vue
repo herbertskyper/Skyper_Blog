@@ -1,3 +1,5 @@
+<!-- 搜索功能 -->
+
 <template>
   <Layout>
     <div class="search-container">
@@ -53,6 +55,7 @@ export default defineComponent({
     const posts = ref([] as Array<{ id: string, title: string, content: string, slug: string }>)
     const filteredPosts = ref(JSON.parse(localStorage.getItem('filteredPosts') || '[]') as Array<{ id: string, title: string, content: string, slug: string }>)
 
+    // 搜索文章
     const searchPosts = () => {
       if (searchQuery.value) {
         const queries = searchQuery.value.toLowerCase().split(' ').filter(q => q)
@@ -73,6 +76,7 @@ export default defineComponent({
       localStorage.setItem('searchQuery', searchQuery.value)
     }
 
+    // 高亮显示搜索结果中的匹配部分
     const highlight = (text: string) => {
       if (!searchQuery.value) return text
       let queries1 = searchQuery.value.split(' ').filter(q => q)
@@ -110,6 +114,8 @@ export default defineComponent({
       return highlightedText
     }
 
+
+    // 高亮显示搜索结果中的匹配部分，并生成显示片段
     const highlightSnippet = (text: string) => {
       
       const queries = searchQuery.value.toLowerCase().split(' ').filter(q => q)
@@ -149,16 +155,20 @@ export default defineComponent({
 
       return highlight(highlightedSnippet)
     }
-
+    
+    // 返回上一页
     const goBack = () => {
       window.history.back()
       localStorage.setItem('activeIndex', '1')
     }
 
+    // 保存当前页码
     const saveCurrentPage = () => {
       localStorage.setItem('currentPage', '1')
     }
 
+
+    // 组件挂载时加载所有文章
     onMounted(() => {
       loadPosts().then(loadedPosts => {
         posts.value = loadedPosts.map(post => ({
@@ -191,9 +201,25 @@ export default defineComponent({
   padding: 5px;
 }
 
+.dark-mode .search-container {
+  background-color: #2c3e50;
+  color: #fff;
+}
+
+
 .back-button {
   margin-bottom: 20px;
 }
+
+.dark-mode .back-button button {
+  background-color: #1e272e;
+  color: #fff;
+}
+
+.dark-mode .back-button button:hover {
+  background-color: #485460;
+}
+
 
 .search-input {
   width: 100%;
@@ -209,12 +235,6 @@ export default defineComponent({
   padding: 0;
 }
 
-.search-result {
-  margin-bottom: 10px;
-}
-
-
-
 .result-link {
   text-decoration: none;
   color: inherit;
@@ -226,6 +246,18 @@ export default defineComponent({
 
 .result-link:visited {
   color: inherit;
+}
+
+.dark-mode .result-link {
+  color: #fff;
+}
+
+.dark-mode .result-link:hover {
+  color: #66b1ff;
+}
+
+.search-result {
+  margin-bottom: 10px;
 }
 
 .search-result h3 {
@@ -247,6 +279,10 @@ export default defineComponent({
   color: #999;
 }
 
+.dark-mode .no-results {
+  color: #ccc;
+}
+
 :deep(.highlight) {
   background-color: yellow;
 }
@@ -256,40 +292,8 @@ export default defineComponent({
   color: #a5a4a4; /* 调整字体颜色 */
 }
 
-.dark-mode .search-container {
-  background-color: #2c3e50;
-  color: #fff;
-}
-
-.dark-mode .result-card {
-  background-color: #1e272e;
-  border-color: #485460;
-  color: #fff;
-}
-
-.dark-mode .result-link {
-  color: #fff;
-}
-
-.dark-mode .result-link:hover {
-  color: #66b1ff;
-}
-
 .dark-mode .search-result-content {
   color: #ccc;
-}
-
-.dark-mode .no-results {
-  color: #ccc;
-}
-
-.dark-mode .back-button button {
-  background-color: #1e272e;
-  color: #fff;
-}
-
-.dark-mode .back-button button:hover {
-  background-color: #485460;
 }
 
 .result-card {
@@ -304,6 +308,12 @@ export default defineComponent({
 .result-card:hover {
   transform: translateY(-10px); /* 添加浮动效果 */
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+}
+
+.dark-mode .result-card {
+  background-color: #1e272e;
+  border-color: #485460;
+  color: #fff;
 }
 
 .search-result-title {

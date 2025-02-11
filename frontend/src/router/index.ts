@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomePage from '../views/Home/index.vue'
+import HomePage from '../views/Home.vue'
 import BlogList from '../views/BlogList.vue'
 import BlogPost from '../views/BlogPost.vue'
 import About from '../views/About.vue'
@@ -24,6 +24,7 @@ const router = createRouter({
   routes
 })
 
+// 添加标签页名称
 router.beforeEach(async (to, from, next) => {
   const defaultTitle = 'Skyper\'s Blog';
   let title = to.meta.title as string;

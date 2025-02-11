@@ -1,3 +1,5 @@
+<!-- 首页 -->
+
 <template>
   <div>
     <div :class="isMobile ? 'container-phone' : 'container'">
@@ -56,6 +58,7 @@ export default defineComponent({
             window.removeEventListener('resize', checkMobile);
         });
 
+        // 前往博客列表
         const goToBlogList = () => {
             router.push('/home');
         };

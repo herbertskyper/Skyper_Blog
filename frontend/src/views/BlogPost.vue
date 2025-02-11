@@ -1,3 +1,5 @@
+<!-- 博客内容 -->
+
 <template>
   <Layout v-loading="loading">
     <div class="back-button">
@@ -42,10 +44,8 @@ import 'katex/dist/katex.min.css'
 import { Calendar } from '@element-plus/icons-vue'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItToc from 'markdown-it-table-of-contents'
-import markdownItTocDoneRight from 'markdown-it-toc-done-right'
-import '@/assets/css/markdown-styles.css' 
+import '@/assets/styles/markdown-styles.css' 
 import hljs from 'highlight.js'
-import { sl } from 'element-plus/es/locale'
 import markdownItTaskLists from 'markdown-it-task-lists';
 
 export default defineComponent({
@@ -65,6 +65,7 @@ export default defineComponent({
     const activeHeading = ref('')
     const loading = ref(true)
     
+    // 初始化 MarkdownIt 实例
     const md = new MarkdownIt({
       html: true,
       linkify: true,
@@ -95,6 +96,7 @@ export default defineComponent({
     })
     .use(markdownItTaskLists)
 
+    // 组件挂载时加载文章内容
     onMounted(async () => {
       const slug = route.params.slug
       const response = await fetch(`/src/posts/${slug}.md`)
@@ -179,6 +181,7 @@ export default defineComponent({
       
     })
     
+    // 监听滚动事件，更新当前可见的标题
     window.addEventListener('scroll', () => {
       const headings = document.querySelectorAll('h1, h2, h3')
       let lastVisibleHeading = ''
@@ -220,16 +223,18 @@ export default defineComponent({
 
     })
     
-
+    // 返回上一页
     const goBack = () => {
       router.go(-1)
     }
 
+    // 格式化日期
     const formatDate = (date: string) => {
       const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
       return new Date(date).toLocaleDateString(undefined, options)
     }
 
+    // 复制代码
     const copyCode = (event: Event) => {
       console.log('复制代码')
       const button = event.target as HTMLElement
@@ -247,6 +252,7 @@ export default defineComponent({
       }
     }
 
+    // 处理标签点击事件，跳转到对应标签的文章列表
     const handleTagClick = (tag: string) => {
       router.push(`/tags/${tag}`)
     }
@@ -284,10 +290,7 @@ export default defineComponent({
 
 .post-content {
   flex: 1;
-
 }
-
-
 
 .dark-mode .post-toc {
   background-color: #333;

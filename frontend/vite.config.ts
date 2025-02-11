@@ -45,5 +45,5 @@ export default defineConfig({
       },
     }
   },
-  base: '/'
+  base: '/'  //出bug重灾区
 })

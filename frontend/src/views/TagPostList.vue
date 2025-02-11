@@ -1,3 +1,5 @@
+<!-- 展示目标标签对应的文章 -->
+
 <template>
   <Layout>
     <div class="back-button">
@@ -37,6 +39,7 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
 
+    // 返回标签页
     const goTags = () => {
       router.go(-1)
       
@@ -55,15 +58,19 @@ export default defineComponent({
     }
   },
   computed: {
+    // 过滤出包含当前标签的文章
     filteredPosts() {
       return this.posts.filter(post => post.tags.includes(this.tag))
     },
+    // 按日期排序文章
     sortedPosts() {
       return this.filteredPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     },
+    // 计算总页数
     totalPages() {
       return Math.ceil(this.sortedPosts.length / this.postsPerPage)
     },
+    // 获取当前页的文章
     paginatedPosts() {
       const start = (this.currentPage - 1) * this.postsPerPage
       const end = start + this.postsPerPage
@@ -80,22 +87,26 @@ export default defineComponent({
     }
   },
   methods: {
+    // 格式化日期
     formatDate(date: string) {
       const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
       return new Date(date).toLocaleDateString(undefined, options)
     },
+    // 跳转到下一页
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++
         localStorage.setItem(`currentPage_${this.tag}`, this.currentPage.toString())
       }
     },
+    // 返回上一页
     prevPage() {
       if (this.currentPage > 1) {
         this.currentPage--
         localStorage.setItem(`currentPage_${this.tag}`, this.currentPage.toString())
       }
     },
+    // 保存当前页码
     saveCurrentPage() {
       localStorage.setItem(`currentPage_${this.tag}`, this.currentPage.toString())
     }

@@ -1,3 +1,5 @@
+<!-- 关于页面 -->
+
 <template>
   <Layout>
     <div class="back-button">
@@ -17,7 +19,7 @@ import matter from 'gray-matter'
 import Layout from '@/components/Layout.vue'
 import { renderMath } from '../utils/katex-renderer'
 import 'katex/dist/katex.min.css'
-import '@/assets/css/markdown-styles.css' 
+import '@/assets/styles/markdown-styles.css' 
 import hljs from 'highlight.js'
 
 export default defineComponent({
