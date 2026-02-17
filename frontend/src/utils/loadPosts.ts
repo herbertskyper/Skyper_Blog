@@ -3,6 +3,18 @@ import { Buffer } from 'buffer'
 import * as yaml from 'js-yaml'
 import { marked } from 'marked'
 
+type PostItem = {
+  id: string
+  path: string
+  title: string
+  tags: string[]
+  date: string
+  slug: string
+  content: string
+}
+
+let postsCache: Promise<PostItem[]> | null = null
+
 /**
  * 加载所有 Markdown 格式的博客文章，并解析其内容和元数据。
  * 
@@ -16,33 +28,44 @@ import { marked } from 'marked'
  * - content: 文章的纯文本内容
  */
 
-export async function loadPosts() {
-  const posts = import.meta.glob('@/posts/*.md', { as: 'raw' }) as Record<string, () => Promise<string>>
-  const postList = []
-
-  for (const path in posts) {
-    const postContent = await posts[path]()
-    const { data, content } = matter(postContent, { 
-      engines: { yaml: (s) => yaml.load(s, { schema: yaml.DEFAULT_SCHEMA }) } 
-    })
-    // 等待 marked 函数的结果
-    let markedContent = await marked(content)
-    markedContent = markedContent.replace(/\$\$?([^$]+?)\$\$?/g, '$1')
-    markedContent = markedContent.replace(/!\[.*?\]\(.*?\)/g, '') // 去除 ![]() 引用
-    const plainTextContent = markedContent.replace(/<[^>]+>/g, '')
-    // console.log(plainTextContent)
-    
-    postList.push({
-      id: data.slug || path.match(/\/([^\/]+)\.md$/)?.[1],
-      path,
-      title: data.title || '未命名文章',
-      tags: data.tags || [],
-      date: data.date || '',
-      slug: data.slug || path.match(/\/([^\/]+)\.md$/)?.[1],
-      content: plainTextContent || ''
-    })
+export async function loadPosts(forceReload = false): Promise<PostItem[]> {
+  if (!forceReload && postsCache) {
+    return postsCache
   }
 
-  return postList
+  postsCache = (async () => {
+    const posts = import.meta.glob('@/posts/*.md', { as: 'raw' }) as Record<string, () => Promise<string>>
+    const entries = Object.entries(posts)
+
+    const postList = await Promise.all(
+      entries.map(async ([path, loader]) => {
+        const postContent = await loader()
+        const { data, content } = matter(postContent, {
+          engines: { yaml: (s) => yaml.load(s, { schema: yaml.DEFAULT_SCHEMA }) }
+        })
+
+        let markedContent = await marked(content)
+        markedContent = markedContent.replace(/\$\$?([^$]+?)\$\$?/g, '$1')
+        markedContent = markedContent.replace(/!\[.*?\]\(.*?\)/g, '')
+        const plainTextContent = markedContent.replace(/<[^>]+>/g, '')
+
+        const matchedSlug = data.slug || path.match(/\/([^\/]+)\.md$/)?.[1] || ''
+
+        return {
+          id: matchedSlug,
+          path,
+          title: data.title || '未命名文章',
+          tags: data.tags || [],
+          date: data.date || '',
+          slug: matchedSlug,
+          content: plainTextContent || ''
+        }
+      })
+    )
+
+    return postList
+  })()
+
+  return postsCache
 }
 

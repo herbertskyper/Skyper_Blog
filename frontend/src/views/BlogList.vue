@@ -23,60 +23,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref,onMounted } from 'vue'
+import { defineComponent } from 'vue'
 import { loadPosts } from '../utils/loadPosts'
 import Layout from '../components/Layout.vue'
 import { Calendar } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router'
 
 export default defineComponent({
   components: {
     Layout,
     Calendar
   },
-  setup() {
-    const router = useRouter()
-    const tags = ref<string[]>([])
-    const tagColors = ref<{ [key: string]: string }>({})
-
-    const generateTagColors = (tags: string[]) => {
-      const colors = ['#df7988', '#078507', '#0177b8', '#e6a715', '#6b69b6']
-      const tagColorMap: { [key: string]: string } = {}
-      tags.forEach((tag, index) => {
-        tagColorMap[tag] = colors[index % colors.length]
-      })
-      return tagColorMap
-    }
-
-    onMounted(async () => {
-      const posts = await loadPosts()
-      const allTags = new Set<string>()
-
-      posts.forEach(post => {
-        if (post.tags) {
-          post.tags.forEach((tag: string) => allTags.add(tag))
-        }
-      })
-
-      tags.value = Array.from(allTags)
-      tagColors.value = generateTagColors(tags.value)
-      // console.log('Extracted tags:', tags.value) // 调试日志
-      // console.log('Tag colors:', tagColors.value) // 调试日志
-    })
-
-    const handleTagClick = (tag: string) => {
-      router.push(`/tags/${tag}`)
-    }
-
-    return {
-      tags,
-      tagColors,
-      handleTagClick
-    }
-  },
   data() {
     return {
       posts: [] as Array<{ id: string, path: string, title: string, tags: string[], date: string, slug: string }>,
+      tags: [] as string[],
+      tagColors: {} as { [key: string]: string },
       currentPage: 1,
       postsPerPage: 4,
       loading: true
@@ -97,6 +58,13 @@ export default defineComponent({
   },
   async mounted() {
     this.posts = await loadPosts()
+    const allTags = new Set<string>()
+    this.posts.forEach(post => {
+      post.tags?.forEach((tag: string) => allTags.add(tag))
+    })
+    this.tags = Array.from(allTags)
+    this.tagColors = this.generateTagColors(this.tags)
+
     const savedPage = localStorage.getItem('currentPage')
     if (savedPage) {
       this.currentPage = parseInt(savedPage, 10)
@@ -104,9 +72,20 @@ export default defineComponent({
     this.loading= false
   },
   methods: {
+    generateTagColors(tags: string[]) {
+      const colors = ['#df7988', '#078507', '#0177b8', '#e6a715', '#6b69b6']
+      const tagColorMap: { [key: string]: string } = {}
+      tags.forEach((tag, index) => {
+        tagColorMap[tag] = colors[index % colors.length]
+      })
+      return tagColorMap
+    },
     formatDate(date: string) {
       const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
       return new Date(date).toLocaleDateString(undefined, options)
+    },
+    handleTagClick(tag: string) {
+      this.$router.push(`/tags/${tag}`)
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {

@@ -258,10 +258,27 @@
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
+/* 代码块中的 code 不使用内联 code 的内边距，避免首行固定缩进 */
+.markdown-body pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  font-size: inherit;
+  display: block;
+  white-space: inherit;
+}
+
 /* 黑夜模式内联代码块样式 */
 .dark-mode .markdown-body code {
   background-color: #444; /* 背景颜色 */
   color: #ff79c6; /* 文本颜色 */
+}
+
+.dark-mode .markdown-body pre code {
+  background-color: transparent;
+  color: inherit;
 }
 
 
