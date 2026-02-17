@@ -8,8 +8,7 @@ slug: "Ubuntu-reinstall"
 
 只需要按照安装的流程安装即可，在这个界面建议选择第一个界面（后面再扩容），比较方便
 
-![image.png](Ubuntu-reinstall
-/image.png)
+![image.png](Ubuntu-reinstall/image.png)
 
 ## 2.扩容
 
